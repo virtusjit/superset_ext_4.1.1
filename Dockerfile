@@ -20,11 +20,11 @@ RUN mkdir -p /app/superset-frontend
 
 WORKDIR /app/superset-frontend/
 
-COPY superset_ext_4.1.1/superset-frontend/package*.json ./
+COPY superset_ext_0.1.0/superset-frontend/package*.json ./
 RUN npm ci
 
 # Копируем всю директорию superset-frontend для пересборки
-COPY ./superset_ext_4.1.1/superset-frontend .
+COPY ./superset_ext_0.1.0/superset-frontend .
 
 # This seems to be the most expensive step
 RUN npm run ${BUILD_CMD} \
@@ -44,7 +44,7 @@ COPY --from=superset-node /app/superset/static/assets /app/superset/static/asset
 ######################################################################
 USER root
 
-COPY ./superset_ext_4.1.1/requirements/requirements-local.txt /app/requirements/
+COPY ./superset_ext_0.1.0/requirements/requirements-local.txt /app/requirements/
 
 # Cache everything for dev purposes...
 RUN cd /app \
