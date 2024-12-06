@@ -39,15 +39,5 @@ FROM superset-official AS superset-bi
 # в образ Docker, используемый для запуска веб-приложения Superset
 COPY --from=superset-node /app/superset/static/assets /app/superset/static/assets
 
-######################################################################
-# Install Drivers for Clickhouse
-######################################################################
-USER root
-
-COPY ./superset_ext_0.1.0/requirements/requirements-local.txt /app/requirements/
-
-# Cache everything for dev purposes...
-RUN cd /app \
-    && pip install --no-cache -r requirements/requirements-local.txt
 
 USER superset
