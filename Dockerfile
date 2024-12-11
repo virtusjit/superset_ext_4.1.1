@@ -8,8 +8,10 @@ FROM apachesuperset.docker.scarf.sh/apache/superset:latest AS superset-official
 ######################################################################
 # if BUILDPLATFORM is null, set it to 'amd64' (or leave as is otherwise).
 ARG BUILDPLATFORM=linux/amd64
+
 #FROM --platform=${BUILDPLATFORM} node:16-bookworm-slim AS superset-node
 FROM --platform=${BUILDPLATFORM} node:20-bookworm-slim AS superset-node
+
 
 
 ARG NPM_BUILD_CMD="build"
@@ -21,15 +23,6 @@ RUN mkdir -p /app/superset-frontend
 WORKDIR /app/superset-frontend/
 
 COPY superset_ext_0.1.0/superset-frontend/package*.json ./
-
-RUN echo 'deb http://mirror.yandex.ru/debian/ bookworm main contrib non-free non-free-firmware
-deb-src http://mirror.yandex.ru/debian/ bookworm main contrib non-free non-free-firmware
-
-deb http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware
-deb-src http://security.debian.org/debian-security bookworm-security main contrib non-free non-free-firmware
-
-deb http://mirror.yandex.ru/debian/ bookworm-updates main contrib non-free non-free-firmware
-deb-src http://mirror.yandex.ru/debian/ bookworm-updates main contrib non-free non-free-firmware' > /etc/apt/sources.list
 
 RUN apt-get update && \
     apt-get install -y zstd && \
@@ -86,3 +79,4 @@ RUN pip install --no-cache-dir --no-deps psycopg2-binary
 
 # Возвращаемся к пользователю superset для безопасности
 USER superset
+
